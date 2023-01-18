@@ -27,7 +27,6 @@
 
 <template>
   <div class="post">
-    <h1>Single post id: {{ postId }}</h1>
     <Post :postData="postData" :comments="postCommentsData"/>
   </div>
 </template>

@@ -7,17 +7,18 @@
   const router = useRouter();
 
   const posts = ref([]);
+  const postsTemp = ref([]);
   const comments = ref([]);
   const users = ref([]);
   const searchInput = ref('');
 
   onMounted(async () => {
     users.value = await fetchData('https://jsonplaceholder.typicode.com/users');
-    posts.value = await fetchData('https://jsonplaceholder.typicode.com/posts');
+    postsTemp.value = await fetchData('https://jsonplaceholder.typicode.com/posts');
     comments.value = await fetchData('https://jsonplaceholder.typicode.com/comments');
 
     // Connect users with posts and comments
-    posts.value.forEach((post) => {
+    postsTemp.value.forEach((post) => {
       post.comments = [];
 
       users.value.forEach((user) => {
@@ -32,27 +33,67 @@
         }
       })
     })
+
+    // Set up temporary so we don't trigger computed for changing posts until the end
+    posts.value = postsTemp.value;
   })
 
   const filteredPosts = computed(() => {
-    // Ensure posts state exist
-    if (!posts.userData) {
-      return posts.value;
-    }
     return posts.value.filter(post => post.userData.name.toLowerCase().includes(searchInput.value.toLowerCase()));
   })
 
   const toPost = (postId) => {
     router.push(`/post/${postId}`);
   }
+
 </script>
 
 <template>
-  <input type="text" v-model="searchInput">
-  <div v-if="filteredPosts.length !== 0" class="posts">
-    <Post v-for="post in filteredPosts" @click="toPost(post.id)" :postData="post" :comments="post.comments" />
+  <div class="search-post">
+    <h2>Search for the post/s from a certain user</h2>
+    <input type="text" v-model="searchInput">
+  </div>
+
+  <div
+    v-if="filteredPosts.length !== 0" 
+    class="posts"
+  >
+    <Post 
+      v-for="post in filteredPosts" 
+      :key="post.id"
+      @click="toPost(post.id)" 
+      :postData="post" 
+      :comments="post.comments" 
+    />
   </div>
   <div v-else class="no-posts">
     No post match search input
   </div>
 </template>
+
+<style scoped>
+  .search-post {
+    border: 2px solid var(--color-primary);
+    border-radius: 12px;
+    padding: 14px 18px;
+    background-color: var(--color-white);
+    color:  var(--color-secondary);
+    margin-bottom: 20px;
+  }
+
+  .search-post input[type=text] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid var(--color-tertiary);
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  .search-post input:focus {
+    outline: none;
+    border: 2px solid var(--color-secondary);
+  }
+</style>
