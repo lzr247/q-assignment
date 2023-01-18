@@ -55,6 +55,9 @@
 
   .post .post-data .post-data-wrapper .back {
     font-weight: bold;
+    background-color: var(--color-tertiary);
+    padding: 2px 8px;
+    border-radius: 4px;
   }
 
   .post .comment {
