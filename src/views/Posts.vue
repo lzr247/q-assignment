@@ -35,6 +35,10 @@
   })
 
   const filteredPosts = computed(() => {
+    // Ensure posts state exist
+    if (!posts.userData) {
+      return posts.value;
+    }
     return posts.value.filter(post => post.userData.name.toLowerCase().includes(searchInput.value.toLowerCase()));
   })
 

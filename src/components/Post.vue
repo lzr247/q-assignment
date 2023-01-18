@@ -7,7 +7,7 @@
 
 <template>
   <div class="post" v-if="postData && comments">
-    <h3>{{ postData.userData.username }}</h3>
+    <h3 v-if="postData.userData">{{ postData.userData.username }}</h3>
     <h1>{{ postData.title }}</h1>
     <p>{{ postData.body }}</p>
     <div class="comments">
