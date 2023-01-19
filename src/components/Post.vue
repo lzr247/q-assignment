@@ -34,7 +34,7 @@
 
 <style scoped>
   .post {
-    border: 2px solid #407088;
+    border: 2px solid var(--color-secondary);
     border-radius: 12px;
     padding: 14px 18px;
     background-color: var(--color-white);

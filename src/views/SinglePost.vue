@@ -3,15 +3,18 @@
   import { useRoute } from 'vue-router';
   import { fetchData } from '../utils/fetchData';
   import Post from '../components/Post.vue';
+  import Loader from '../components/Loader.vue';
 
   const route = useRoute();
   const postData = ref();
   const postCommentsData = ref();
   const postUserData = ref();
+  const fetchingState = ref(false);
 
   const postId = parseInt(route.params.id);
 
   onMounted(async () => {
+    fetchingState.value = true;
     postData.value = await fetchData(`https://jsonplaceholder.typicode.com/posts/${postId}`);
     postCommentsData.value = await fetchData(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`);
     postUserData.value = await fetchData('https://jsonplaceholder.typicode.com/users');
@@ -22,11 +25,13 @@
         postData.value.userData = user;
       }
     })
+    fetchingState.value = false;
   })
 </script>
 
 <template>
   <div class="post">
-    <Post :postData="postData" :comments="postCommentsData"/>
+    <Loader v-if="fetchingState"/>
+    <Post v-else :postData="postData" :comments="postCommentsData"/>
   </div>
 </template>

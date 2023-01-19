@@ -3,6 +3,7 @@
   import { useRouter } from 'vue-router';
   import { fetchData } from '../utils/fetchData';
   import Post from '../components/Post.vue';
+  import Loader from  '../components/Loader.vue';
 
   const router = useRouter();
 
@@ -11,8 +12,10 @@
   const comments = ref([]);
   const users = ref([]);
   const searchInput = ref('');
+  const fetchingState = ref(false);
 
   onMounted(async () => {
+    fetchingState.value = true;
     users.value = await fetchData('https://jsonplaceholder.typicode.com/users');
     postsTemp.value = await fetchData('https://jsonplaceholder.typicode.com/posts');
     comments.value = await fetchData('https://jsonplaceholder.typicode.com/comments');
@@ -36,6 +39,7 @@
 
     // Set up temporary so we don't trigger computed for changing posts until the end
     posts.value = postsTemp.value;
+    fetchingState.value = false;
   })
 
   const filteredPosts = computed(() => {
@@ -53,22 +57,26 @@
     <h2>Search for the post/s from a certain user</h2>
     <input type="text" v-model="searchInput">
   </div>
+  
+  <Loader v-if="fetchingState" />
 
-  <div
-    v-if="filteredPosts.length !== 0" 
-    class="posts"
-  >
-    <Post 
-      v-for="post in filteredPosts" 
-      :key="post.id"
-      @click="toPost(post.id)" 
-      :postData="post" 
-      :comments="post.comments" 
-    />
-  </div>
-  <div v-else class="no-posts">
-    No post match search input
-  </div>
+  <template v-else>
+    <div
+      v-if="filteredPosts.length !== 0" 
+      class="posts"
+    >
+      <Post 
+        v-for="post in filteredPosts" 
+        :key="post.id"
+        @click="toPost(post.id)" 
+        :postData="post" 
+        :comments="post.comments" 
+      />
+    </div>
+    <div v-else class="no-posts">
+      No post match search input
+    </div>
+  </template>
 </template>
 
 <style scoped>
