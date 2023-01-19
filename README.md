@@ -1,35 +1,22 @@
-# q-assignment
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
+# Q-Assignment
+#### node v16.17.1 | npm v6.14.10
 ## Project Setup
-
 ```sh
 npm install
 ```
-
 ### Compile and Hot-Reload for Development
-
 ```sh
 npm run dev
 ```
-
 ### Compile and Minify for Production
-
 ```sh
 npm run build
 ```
-
+### Run tests
+```sh
+npm run test
+```
 ### Lint with [ESLint](https://eslint.org/)
-
 ```sh
 npm run lint
 ```
