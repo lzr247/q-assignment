@@ -4,7 +4,7 @@
   const router = useRouter();
   const route = useRoute();
 
-  const { postData, comments } = defineProps(['postData', 'comments'])
+  const { postData } = defineProps(['postData'])
 
   const goBack = () => {
     router.push(`/posts`);
@@ -13,7 +13,7 @@
 </script>
 
 <template>
-  <div class="post" v-if="postData && comments">
+  <div class="post" v-if="postData">
     <div class="post-data">
       <div class="post-data-wrapper">
         <h3 class="username" v-if="postData.userData">{{ postData.userData.name }}</h3>
@@ -24,7 +24,7 @@
     </div>
     <hr>
     <div class="comments">
-      <div class="comment" v-for="comment in comments">
+      <div class="comment" v-for="comment in postData.comments">
         <h4>{{ comment.email }}</h4>
         <p>{{ comment.body }}</p>
       </div>

@@ -16,7 +16,7 @@
   onMounted(async () => {
     fetchingState.value = true;
     postData.value = await fetchData(`https://jsonplaceholder.typicode.com/posts/${postId}`);
-    postCommentsData.value = await fetchData(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`);
+    postData.value.comments = await fetchData(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`);
     postUserData.value = await fetchData('https://jsonplaceholder.typicode.com/users');
 
     // Attach correct user to the post
@@ -25,6 +25,7 @@
         postData.value.userData = user;
       }
     })
+
     fetchingState.value = false;
   })
 </script>

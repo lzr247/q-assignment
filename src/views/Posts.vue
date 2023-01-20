@@ -70,7 +70,6 @@
         :key="post.id"
         @click="toPost(post.id)" 
         :postData="post" 
-        :comments="post.comments" 
       />
     </div>
     <div v-else class="no-posts">
